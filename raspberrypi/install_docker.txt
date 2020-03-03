@@ -1,0 +1,26 @@
+###DOCKER INSTALL 
+sudo apt-get install apt-transport-https ca-certificates software-properties-common -y
+curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
+sudo usermod -aG docker pi
+sudo curl https://download.docker.com/linux/raspbian/gpg
+sudo nano /etc/apt/sources.list
+ - add line : deb https://download.docker.com/linux/raspbian/ stretch stable
+sudo apt-get update
+sudo apt-get upgrade
+sudo systemctl start docker.service
+
+
+###DOCKER COMPOSE INSTALL
+sudo apt-get install -y libffi-dev libssl-dev
+sudo apt-get install -y python python-pip
+sudo apt-get remove -y python-configparser
+sudo pip install docker-compose
+
+###PORTAINER
+docker run -d -p 9000:9000 -p 8000:8000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v /portainer:/data portainer/portainer
+
+###PORTAINER AGENT
+#docker swarm init
+#curl -L https://downloads.portainer.io/agent-stack.yml -o agent-stack.yml && docker stack deploy --compose-file=agent-stack.yml portainer-agent
+
+docker run -d -p 9001:9001 --name portainer_agent --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/docker/volumes:/var/lib/docker/volumes portainer/agent

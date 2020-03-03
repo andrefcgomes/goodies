@@ -1,0 +1,22 @@
+#####
+sudo lsblk -o UUID,NAME,FSTYPE,SIZE,MOUNTPOINT,LABEL,MODEL #listar discos
+sudo apt install ntfs-3g                                   #suporte a ntfs      
+sudo mkdir /mnt/mydisk                                     #criar ponto montagem
+sudo mount /dev/sda1 /mnt/mydisk                           #montar disco manualmente
+
+#setup automount
+Get the UUID of the disk partition:
+sudo blkid
+
+sudo nano /etc/fstab
+Add the following line in the fstab file:
+
+#se ntfs
+UUID=24803016802FED4C /mnt/disk1 ntfs defaults,auto,users,rw,nofail,umask=000 0 0
+UUID=B200E6F000E6BB0D /mnt/disk2 ntfs defaults,auto,users,rw,nofail,umask=000 0 0
+#se ext4 
+UUID=05f968b3-a75e-4a71-a74b-fa8bf4905e71 /mnt/disk1 ext4 defaults 0
+UUID=fa87da53-1249-4ba1-8811-448ae77bcdd4 /mnt/disk2 ext4 defaults 0
+
+###
+
